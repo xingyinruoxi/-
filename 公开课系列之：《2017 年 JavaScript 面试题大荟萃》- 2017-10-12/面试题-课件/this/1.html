@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+            /**
+             * this
+             *  内置对象，上下文对象，this会随着调用的环境不同而不同
+             */
+
+            // 全局
+            // console.log(this);  //window
+
+            // 函数
+            // 直接调用
+
+            // 非严格模式的函数
+            function fn1() {
+                console.log(this);
+            }
+
+            fn1();  //window
+
+            // 严格模式
+            function fn2() {
+                'use strict';
+                console.log(this);
+            }
+
+            fn2();  //undefined
+
+
+            var obj = {
+                a: 1,
+                fn() {
+                    console.log(this);
+                }
+            }
+
+            obj.fn();   //调用该方法的对象
+
+
+            function fn3() {
+                console.log(this);
+            }
+
+            fn3.call(10);   //this指向10
+            fn3.apply(100); //this指向100
+
+            //bind : 函数下的一个方法
+            var f = fn3.bind(1000); //并没有直接改变fn3执行过程的this，而是返回一个新函数，这个新函数的this永远都和1000进行绑定
+            f();
+
+
+            //getter,setter
+            var obj2 = {x: 1}
+            // 给对象定义属性的另外一种方式
+            // obj2.y = 1;
+            Object.defineProperty(obj2, 'y', {
+                set() {
+
+                },
+                get() {
+                    console.log(this);  //obj2
+                    return 1000;
+                }
+            });
+            console.log( obj2.y );
+
+
+            // 构造函数
+            function Person() {
+                this.x = 1;
+                console.log(this);  //this => p
+            }
+            Person.prototype.fn = function() {
+                console.log(this);  //调用该方法的对象
+            }
+
+            var p = new Person();
+            p.fn();
+
+
+            // es6新增的箭头函数
+            var x = 10;
+            var obj3 = {
+                x: 100,
+                fn() {
+                    return function() {
+                        console.log(this.x);
+                    }
+                },
+                fn1() {
+                    //this => obj3
+                    return () => {
+                        console.log(this.x);
+                    }
+                }
+            }
+
+            var f = obj3.fn();
+
+            f();    //f是直接调用的，window，普通函数中的this指向取决调用环境
+
+            var f1 = obj3.fn1();//this=>obj3
+
+            f1();    //obj3，箭头函数中的this指向取决于申明环境
+
+
+            document.onclick = function() {
+                console.log(this);  //this=>document
+            }
+
+        </script>
+    </body>
+</html>

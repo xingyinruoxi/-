@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+
+			/*
+				## 错误构造函数
+					javascript规范中总共有8中错误类型构造函数
+
+					- Error -- 错误对象
+					- SyntaxError --解析过程语法错误
+					- TypeError   -- 不属于有效类型
+					- ReferenceError -- 无效引用
+					- RangeError -- 数值超出有效范围
+					- URIError -- 解析URI编码出错
+					- EvalError -- 调用eval函数错误
+					- InternalError -- Javascript引擎内部错误的异常抛出， "递归太多"
+			*/
+			
+			//throw new Error('这是一个致命的错误');
+			function fn(a){
+				if(!a){
+					throw new Error('请传入参数');
+				}	
+			}
+			function a(){
+				b();
+			}
+			function b(){
+				fn()	
+			}
+
+			a();
+			
+
+			// let 123a = 'leo';  Uncaught SyntaxError: Invalid or unexpected token
+
+			/*let func = 'miaov';
+
+			new func*/
+
+			/*let obj = {};
+
+			obj.fn();*/
+
+			//console.log(a);
+
+			/// new Array(-1)
+
+			// 'miaov'.repeat(-1)
+
+			/*function MyErrorType(message){
+				this.message = message || '错误';
+				this.name = 'MyErrorType';
+				this.stack = (new Error()).stack;  // 错误位置和调用栈
+			}
+
+			MyErrorType.prototype = Object.create(Error.prototype);
+			MyErrorType.prototype.constructor = MyErrorType;
+
+			throw new MyErrorType('自定义错误类型抛出错误')*/
+
+
+		</script>
+	</head>
+
+	<body>
+		
+	</body>
+</html>

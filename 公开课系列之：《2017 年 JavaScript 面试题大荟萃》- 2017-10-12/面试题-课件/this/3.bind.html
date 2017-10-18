@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+            function fn() {
+                console.log(this);
+            }
+
+            // var f = fn.bind(10);
+            // f();
+
+            function myBind(func, context) {
+
+                // 返回一个新的函数
+                return function() {
+                    func.call(context);
+                }
+            }
+
+            var f = myBind(fn, 10);
+            f();
+            document.onclick = f;
+
+        </script>
+    </body>
+</html>

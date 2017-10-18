@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            // 定义了一个 a，这个 a 是全局
+            var a = 10;
+
+            function aaa(){
+                // 调用 a
+                // 会在当前作用域内查找 a
+                // 父作用域：定义过程中的父作用域
+                console.log(a);
+            };
+
+            function bbb() {
+                // 申明了一个局部 a
+                var a = 20;
+                // 调用了 aaa 函数
+                aaa();  // 10
+            }
+
+            // 调用了 bbb 函数
+            bbb();  // => 10
+            console.log(a); // 10
+        </script>
+    </body>
+</html>

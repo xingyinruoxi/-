@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <title></title>
+    <body>
+
+        <script type="text/javascript">
+
+            /**
+             * 闭包
+             *  闭包在js中是一种环境
+             *  产生：
+             *      函数嵌套函数
+             *  效果：
+             *      内部函数可以访问外部函数的变量
+             *  使用：
+             *      1. 数据保护：创建一个私有变量
+             *      2. 避免全局变量污染
+             */
+
+            //  function fn1() {
+             //
+            //      function fn2() {
+             //
+            //      }
+             //
+            //  }
+
+
+            // function miaov() {
+            //     var a = 10;
+            //     window.fn1 = function() {
+            //         console.log(a);
+            //     }
+            //     window.fn2 = function() {
+            //         console.log(a);
+            //     }
+            // }
+            //
+            // miaov();
+
+            // console.log(a);
+            //fn1();
+            //fn2();
+
+
+
+            function fn1() {
+                var a = 1;
+                a++;
+                console.log(a);
+
+            }
+
+            // fn1三次调用会产生三个不同的作用域，并不会互相影响和访问
+            //fn1();  // 调用完成以后，和这个函数当前这次调用的有关内部数据就会回收
+            //fn1();
+            //fn1();
+
+
+            function fn2() {
+                var a = 1;
+
+                return function() {
+                    a++;
+                    console.log(a);
+                }
+
+            }
+
+            var f = fn2();  //f 就是 fn2 执行后返回的值
+            f();    //2
+            f();    //3
+
+            // 对象的比较，比较的是地址
+            //[]==[]  //运算符，运算符优先级，类型转换
+        </script>
+
+    </body>
+</html>

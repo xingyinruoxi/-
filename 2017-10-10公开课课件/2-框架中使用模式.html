@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="测试listener" id="btn" />
+		<script>
+			let btn = document.getElementById('btn');
+
+			$("#btn").on('abc',function (){
+				alert(1)
+			})
+
+			$("#btn").trigger("abc");
+
+			$("#btn").off("abc",)
+
+			// vue 父子之间通信的时候
+
+			<input type="button" @abc="fn" />
+			this.$emit('abc')
+
+
+		</script>
+	</body>
+</html>

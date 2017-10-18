@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+<style>
+body,ul,li,p{
+	margin: 0;
+	padding: 0;
+}
+#wrap{
+	min-width:450px;
+	background: #ffb746;
+	border: 1px solid #000;
+	font-family: "微软雅黑";
+	margin: 50px auto;
+}
+nav {
+	font-size: 0;
+}
+nav a{
+	display: inline-block;
+	width:146px;
+	height: 40px;
+	font-size: 16px;
+	text-align: center;
+	line-height: 40px;
+	color: #000;
+	text-decoration: none;
+	background: #fff;
+	margin-left: 3px;
+}
+a.active{
+	background: #ffb746;
+	color: #fff;
+}
+
+#box{
+	margin:20px;
+}
+#box ul{
+	width:226px;
+	list-style: none;
+	float: left;
+}
+#box div{
+	display: none;
+}
+#box div.show{
+	display: block;
+}
+#box ul li{
+	height: 60px;
+}
+#box ul li.active{
+	background:#fff;
+}
+#box li p{
+	font-size: 14px;
+	color:#fff;
+	text-indent:2em;
+	line-height:2.5em;
+	height: 35px;
+}
+#box li.active p{
+	font-size: 16px;
+	color:#000;
+}
+#box li.active span{
+	color:#000;
+}
+
+#box > div {
+	overflow: hidden;
+}
+
+img{
+	width:178px;
+	height: 178px;
+	display: block;
+	float: left;
+	border: 2px solid #fff;
+	display: none;
+}
+img.active{
+	display: block;
+}
+span{
+	font-size: 12px;
+	line-height: 20px;
+	text-indent:2.5em;
+	display: block;
+	color:#fff;
+}
+
+</style>
+</head>
+<body>
+	<section id="wrap">
+		<nav id="nav">
+			<!-- <a href="javascript:;" class="active">专题</a>
+			<a href="javascript:;">视频</a>
+			<a href="javascript:;">图片</a>
+			<a href="javascript:;">图片</a>
+			<a href="javascript:;">图片</a> -->
+		</nav>
+		<div id="box">
+			<!-- <div class="show">
+				<img src="img/1.jpg" alt="" class="active"/>
+				<img src="img/2.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>妙味课堂新闻</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>公开课干活</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>远程课开课啦</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>远程课开课啦</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<img src="img/4.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<img src="img/1.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>Vue进阶学习</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>Vue购物流程实战</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>React实战学习</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<img src="img/1.jpg" alt=""/>
+				<img src="img/2.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>nodejs基础到实战</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>会员看1000多集视频</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>canvas任意学</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div> -->
+		</div>
+	</section>
+	<script src="./data.js"></script>
+	<script>
+		let initIndex = 0;
+		// 生成结构
+		let navHtml = data.map((item,index) => {
+			let active = index === initIndex ? 'active' : '';
+			return `<a href="javascript:;" class="${active}">${item.tab_title}</a>`
+		}).join('');
+
+		let nav = document.querySelector("#nav");
+		nav.innerHTML = navHtml;
+
+		// 生成每一个面板
+
+		let boxHtml = data.map((item,index) => {
+			let show = index === initIndex ? 'show' : '';
+			let boxHtml = `<div class="${show}">`;
+
+			boxHtml += item.tab_list.map((itemImg,j) => {
+				let active = j === initIndex ? 'active' : '';
+				return `<img src="${itemImg.img_url}" alt="" class="${active}"/>`
+			}).join('');
+
+			boxHtml += '<ul>';
+
+			boxHtml += item.tab_list.map((itemLi,i) => {
+				let active = i === initIndex ? 'active' : '';
+				return `
+					<li class="${active}">
+						<p>${itemLi.title}</p>
+						<span>${itemLi.data}</span>
+					</li>
+				`
+			}).join('');
+
+			boxHtml += '</ul>';
+
+
+			boxHtml += `</div>`;
+
+			return boxHtml;
+		}).join("");
+
+		let box = document.querySelector('#box');
+
+		box.innerHTML = boxHtml;
+
+		let wrap = document.querySelector('#wrap');
+		// 计算宽度
+		let navA = nav.children;
+		let navFrist = navA[0];
+		let w = navFrist.offsetWidth+3;
+		let len = navA.length;
+
+		wrap.style.width = w * len + 'px';
+
+		// 写交互
+		// 先让第一个面板的li切换起来
+
+		let tabs = box.children;  // 所有的面板
+
+		// 动起来的面板
+		let runTab = tabs[0];
+		let runTabLi = runTab.querySelectorAll('li');
+		let LiLen = runTabLi.length;
+
+		let cur = 0; // 记录当前切换的li
+
+	let timer = setInterval(function (){
+			
+			for( let i = 0; i < LiLen; i++ ){
+				runTabLi[i].className = ''
+			}
+
+			// 过界处理
+			if(cur >= LiLen - 1){
+				console.log("已经大了");
+				clearInterval(timer);
+				// 该进行第二个了
+				tabs[0].className = '';
+				tabs[1].className = 'show';
+
+				let runTab = tabs[1];
+				let runTabLi = runTab.querySelectorAll('li');
+				let LiLen = runTabLi.length;
+				cur = 0;
+				timer = setInterval(() => {
+					for( let i = 0; i < LiLen; i++ ){
+						runTabLi[i].className = ''
+					}
+					if(cur >= LiLen - 1){
+						clearInterval(timer);
+						
+					}else{
+						cur++;
+						runTabLi[cur].className = 'active';
+					}
+					
+				}, 1000)
+
+			}else{
+				cur++;
+				runTabLi[cur].className = 'active';
+			}
+			
+
+		}, 1000)
+
+
+
+
+	</script>
+</body>
+</html>

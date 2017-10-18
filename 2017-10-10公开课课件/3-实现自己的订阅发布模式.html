@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="测试listener" id="btn" />
+		<script>
+
+			// 售楼中心
+			class Events {
+				constructor(){
+					// 记录留下来的电话号（函数）
+					this._event = [];
+				}
+
+				on(listener){
+					this._event.push(listener); // 把电话号码存起来
+				}
+
+				emit(){
+					this._event.forEach((item) => {
+						item();
+					})
+				}
+
+				off(listener){
+					let events = this._event;
+					let len = events.length;
+					for( var i = 0; i < len; i++ ){
+						if(events[i] === listener){
+							events.splice(i,1)
+						}
+					}
+				}
+
+			}
+
+			
+			let e = new Events();
+			// 小明 留下电话号码
+			e.on(function (){
+				console.log("通知了小明");	
+			});
+
+			function fn(){
+				console.log("通知了小红");	
+			}
+
+			// 小红
+			e.on(fn)
+
+			// 取消订阅（删除指定的电话号码）
+
+			e.off(fn);
+
+			// 有房了
+
+			document.onclick = function (){
+				e.emit();	
+			}
+
+
+
+		</script>
+	</body>
+</html>

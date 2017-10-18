@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+<style>
+body,ul,li,p{
+	margin: 0;
+	padding: 0;
+}
+#wrap{
+	min-width:450px;
+	background: #ffb746;
+	border: 1px solid #000;
+	font-family: "微软雅黑";
+	margin: 50px auto;
+}
+nav {
+	font-size: 0;
+}
+nav a{
+	display: inline-block;
+	width:146px;
+	height: 40px;
+	font-size: 16px;
+	text-align: center;
+	line-height: 40px;
+	color: #000;
+	text-decoration: none;
+	background: #fff;
+	margin-left: 3px;
+}
+a.active{
+	background: #ffb746;
+	color: #fff;
+}
+
+#box{
+	margin:20px;
+}
+#box ul{
+	width:226px;
+	list-style: none;
+	float: left;
+}
+#box div{
+	display: none;
+}
+#box div.show{
+	display: block;
+}
+#box ul li{
+	height: 60px;
+}
+#box ul li.active{
+	background:#fff;
+}
+#box li p{
+	font-size: 14px;
+	color:#fff;
+	text-indent:2em;
+	line-height:2.5em;
+	height: 35px;
+}
+#box li.active p{
+	font-size: 16px;
+	color:#000;
+}
+#box li.active span{
+	color:#000;
+}
+
+#box > div {
+	overflow: hidden;
+}
+
+img{
+	width:178px;
+	height: 178px;
+	display: block;
+	float: left;
+	border: 2px solid #fff;
+	display: none;
+}
+img.active{
+	display: block;
+}
+span{
+	font-size: 12px;
+	line-height: 20px;
+	text-indent:2.5em;
+	display: block;
+	color:#fff;
+}
+
+</style>
+</head>
+<body>
+	<section id="wrap">
+		<nav id="nav">
+			<!-- <a href="javascript:;" class="active">专题</a>
+			<a href="javascript:;">视频</a>
+			<a href="javascript:;">图片</a>
+			<a href="javascript:;">图片</a>
+			<a href="javascript:;">图片</a> -->
+		</nav>
+		<div id="box">
+			<!-- <div class="show">
+				<img src="img/1.jpg" alt="" class="active"/>
+				<img src="img/2.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>妙味课堂新闻</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>公开课干活</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>远程课开课啦</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>远程课开课啦</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<img src="img/4.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<img src="img/1.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>Vue进阶学习</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>Vue购物流程实战</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>React实战学习</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<img src="img/1.jpg" alt=""/>
+				<img src="img/2.jpg" alt=""/>
+				<img src="img/3.jpg" alt=""/>
+				<ul class="show">
+					<li class="active">
+						<p>nodejs基础到实战</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>会员看1000多集视频</p>
+						<span>2017-09-26</span>
+					</li>
+					<li>
+						<p>canvas任意学</p>
+						<span>2017-09-26</span>
+					</li>
+				</ul>
+			</div> -->
+		</div>
+	</section>
+	<script src="./data.js"></script>
+	<script>
+		let initIndex = 0;
+		// 生成结构
+		let navHtml = data.map((item,index) => {
+			let active = index === initIndex ? 'active' : '';
+			return `<a href="javascript:;" class="${active}">${item.tab_title}</a>`
+		}).join('');
+
+		let nav = document.querySelector("#nav");
+		nav.innerHTML = navHtml;
+
+		// 生成每一个面板
+
+		let boxHtml = data.map((item,index) => {
+			let show = index === initIndex ? 'show' : '';
+			let boxHtml = `<div class="${show}">`;
+
+			boxHtml += item.tab_list.map((itemImg,j) => {
+				let active = j === initIndex ? 'active' : '';
+				return `<img src="${itemImg.img_url}" alt="" class="${active}"/>`
+			}).join('');
+
+			boxHtml += '<ul>';
+
+			boxHtml += item.tab_list.map((itemLi,i) => {
+				let active = i === initIndex ? 'active' : '';
+				return `
+					<li class="${active}">
+						<p>${itemLi.title}</p>
+						<span>${itemLi.data}</span>
+					</li>
+				`
+			}).join('');
+
+			boxHtml += '</ul>';
+
+
+			boxHtml += `</div>`;
+
+			return boxHtml;
+		}).join("");
+
+		let box = document.querySelector('#box');
+
+		box.innerHTML = boxHtml;
+
+		let wrap = document.querySelector('#wrap');
+		// 计算宽度
+		let navA = nav.children;
+		let navFrist = navA[0];
+		let w = navFrist.offsetWidth+3;
+		let len = navA.length;
+
+		wrap.style.width = w * len + 'px';
+
+		// 写交互
+		// 先让第一个面板的li切换起来
+
+		let tabs = box.children;  // 所有的面板
+		let tabsLen = tabs.length;
+		
+
+		let cur = 0; // 记录当前切换的li
+		let tabIndex = 0; // 面板切换默认是从0开始
+
+		let timer = null;
+
+		function run(){
+			// 动起来的面板
+			let runTab = tabs[tabIndex];
+			let runTabLi = runTab.querySelectorAll('li');
+			let runTabImg = runTab.querySelectorAll('img');
+			let LiLen = runTabLi.length;
+				timer = setInterval(function (){
+				for( let i = 0; i < LiLen; i++ ){
+					runTabLi[i].className = '';
+					runTabImg[i].className = '';
+				}
+
+				// 过界处理
+				if(cur >= LiLen - 1){
+					console.log("已经大了");
+					clearInterval(timer);
+					// 该进行第二个了
+					tabs[tabIndex].className = '';
+					navA[tabIndex].className = '';
+					tabIndex++;  // 下一个面板
+					if(tabIndex > tabsLen - 1){
+						tabIndex = 0;
+					}
+					tabs[tabIndex].className = 'show';
+					navA[tabIndex].className = 'active';
+					cur = 0;  // 每一页面板切换li都是从0开始的
+					runTabLi[0].className = 'active';
+					runTabImg[0].className = 'active';
+					run();
+				}else{
+					cur++;
+					runTabLi[cur].className = 'active';
+					runTabImg[cur].className = 'active';
+				}
+				
+
+			}, 1000)
+		}
+
+		run();
+
+	
+		// 鼠标移入停止
+		// 每一个面板中的每一个li绑定点击处理
+
+		for( let i = 0; i < tabsLen; i++ ){
+			let tabsLi = tabs[i].querySelectorAll('li');
+			let tabsImg = tabs[i].querySelectorAll('img');
+
+			for( let j = 0; j < tabsLi.length; j++ ){
+				tabsLi[j].onmouseenter = function (){
+					clearInterval(timer);
+					tabsLi[cur].className = '';
+					tabsImg[cur].className = '';
+					// 上一次li清空class
+					// 当前li添加class
+					this.className = 'active';
+					tabsImg[j].className = 'active';
+
+					cur = j;
+				};
+				tabsLi[j].onmouseleave = function (){
+					run();
+				}
+			}
+		}
+
+		for( let j = 0; j < navA.length; j++ ){
+			navA[j].onmouseenter = function (){
+				clearInterval(timer);
+				navA[tabIndex].className = '';
+				tabs[tabIndex].className = ''
+				this.className = 'active';
+				tabs[j].className = 'show'
+
+				// 移入的如果是调整在运行的面板，直接停止，如果不是正在运动的，默认都是第一个li添加class
+
+				if(tabIndex !== j){  // 不是当前正在运动的面板
+					cur = 0;  // 每次从0开始
+					// 上一次面板默认到第一个
+					// 这一次切换的到第一次
+					tabLiDefaultZero(tabIndex)
+					tabLiDefaultZero(j)
+				}
+
+				tabIndex = j;
+			}
+			navA[j].onmouseleave = function (){
+				run();
+			}
+		}
+
+		function tabLiDefaultZero(i){
+			let lis = tabs[i].querySelectorAll('li');	
+			let imgs = tabs[i].querySelectorAll('img');	
+			let len = lis.length;
+			for( let j = 0; j < len; j++ ){
+				lis[j].className = '';
+				imgs[j].className = '';
+			}
+			lis[0].className = 'active';
+			imgs[0].className = 'active';
+		}
+
+
+	</script>
+</body>
+</html>

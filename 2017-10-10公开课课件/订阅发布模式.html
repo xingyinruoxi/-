@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="测试listener" id="btn" />
+		<script>
+			let btn = document.getElementById('btn');
+
+			/*
+				listners:{
+					click: [fn,fn,fn],
+					mouseover: [fn,fn]
+				}
+			*/
+
+			btn.addEventListener('click',function (){
+				alert(1)		
+			})
+			btn.addEventListener('click',function (){
+				alert(2)		
+			})
+			btn.addEventListener('click',function (){
+				alert(3)		
+			})
+
+			btn.addEventListener('mouseover',function (){
+				alert('mouseover')		
+			});
+
+			
+
+		</script>
+	</body>
+</html>

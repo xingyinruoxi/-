@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+            var scope = "global";
+
+            function log(){
+              var args = Array.prototype.join.call(arguments, ", ");
+            //   args = 'wow '
+              console.log(this.scope + ':' + args);
+            }
+
+            var dog = {
+                scope: 'dog',
+                yelp: function () {
+                    //this => dog
+                  var scope = 'dog.yelp';
+                  log('wow');   //直接调用
+                }
+            }
+
+            dog.yelp(); //'global wow'
+            dog.yelp.bind(dog); //'global wow'
+            log.call(dog, 'created');   //'dog created'
+
+        </script>
+    </body>
+</html>

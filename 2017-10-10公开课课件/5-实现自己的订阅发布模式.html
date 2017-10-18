@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<input type="button" value="测试listener" id="btn" />
+		<script>
+
+			// 售楼中心
+			class Events {
+				constructor(){
+					// 记录留下来的电话号（函数）
+					this._event = {};
+					/*
+						{
+							100m: [listeners1,listeners2],
+							200m: [listeners1,listeners2]
+						}
+					*/
+				}
+
+				on(type,listener){
+
+					// 这个type是否已经记录在电话号码本上了，记录了追加新的电话号码 没记录先创建一个数组
+					let events = this._event[type];
+
+					if( !events ){
+						this._event[type] = [];
+					}
+
+					this._event[type].push(listener); // 把电话号码存起来
+				}
+
+				emit(type,...args){
+
+					let events = this._event[type];
+
+					// 通知对应关心多少平的订阅者
+					if(events && Array.isArray(events)){
+						events.forEach((item) => {
+							item.apply(this,args);
+						})
+					}
+				}
+
+				off(listener){
+					let events = this._event;
+					let len = events.length;
+					for( var i = 0; i < len; i++ ){
+						if(events[i] === listener){
+							events.splice(i,1)
+						}
+					}
+				}
+
+			}
+
+			
+			let e = new Events();
+			// 小明 留下电话号码  关心的是100
+			e.on('100m',function (){
+				console.log("通知了小明");	
+			});
+
+			// 小红 留下电话号码  关心的是1000
+
+			e.on('1000m',function (){
+				console.log("通知小红100");	
+			})
+
+			
+			let obj = {a:1}
+
+			// 小李 留下电话号码  关心的是300
+			e.on('300m',function (...args){
+				console.log(this);
+				console.log("通知小李300");	
+				console.log("小李去借点了");
+				console.log(args);
+			}.bind(obj))
+
+			// 小王 留下电话号码  关心的是100
+			e.on('100m',function (){
+				console.log("通知小王100");	
+				console.log("小王直接买了");
+			})
+
+			console.log(e._event);
+
+
+			document.onclick = function (){
+				e.emit('300m',"今天赶紧买房","买房带上身份证");
+			}
+
+
+
+		</script>
+	</body>
+</html>
