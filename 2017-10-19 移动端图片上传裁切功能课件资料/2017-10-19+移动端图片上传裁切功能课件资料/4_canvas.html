@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+#c {
+	display: block;
+	background: #ccc;
+}	
+</style>
+</head>
+<body>
+<canvas id="c" width="1000" height="600"></canvas>
+<script type="text/javascript">
+var c = document.querySelector('#c');
+var cxt = c.getContext("2d");
+cxt.fillRect(50, 50, 100, 100);	
+</script>
+</body>
+</html>

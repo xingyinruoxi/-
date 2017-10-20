@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>妙味课堂最新开班信息: 零基础课程-10月24日-上海 零基础课程-10月25日-北京</title>
+<script>
+console.log('妙味课堂最新开班信息: 零基础课程-10月24日-上海 零基础课程-10月25日-北京');
+</script>
+</head>
+<body>
+<input type="file" id="file" accept="image/*">
+<script type="text/javascript">
+/* 文件上传 */
+(function(){
+	var file = document.querySelector('#file');
+	file.onchange = function(){
+       //console.log(this.files[0]);
+       var reader = new FileReader();
+       reader.onload = function(e){
+       		console.log(e.target.result);
+       };
+       reader.readAsDataURL(this.files[0]);
+	};
+})();
+</script>
+</body>
+</html>

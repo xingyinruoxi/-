@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+#box {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -100px;
+	width: 200px;
+	height: 200px;
+	background: red;
+	color: #fff;
+}	
+</style>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript" src="MTween.js"></script>
+<script type="text/javascript">
+document.addEventListener('touchstart', function(e) {
+	e.preventDefault();
+});
+// css(el,attr,val);
+(function(){
+	var box = document.querySelector('#box');
+	var startScale = 0;
+	css(box,"scale",1);
+	Gesture({
+		el: box,
+		start: function(){
+			startScale = css(box,"scale");
+			this.style.background = "blue";// .5
+		},
+		change: function(e){
+			//.5
+			css(box,"scale",startScale*e.scale);
+			this.innerHTML = e.scale; 
+		},
+		end: function(){
+			this.style.background = "red";	
+		}
+	});
+
+	drag({
+		el: box,
+		move: function(e){
+			console.log(e.dis);
+		}
+	})
+})();
+/*
+	init: {
+		el: 要操作的元素,
+		start: fn,多指摁下时的回调
+		change: fn,多指位置改变时的回调
+		end: fn 多指抬起的回调
+	}
+	gesturechange(e)
+	e: scale  change时 和start时 两根手指之间的距离的比值
+	e: rotation change时 和start时 两根手指之间的旋转的角度差值
+*/
+function Gesture(init){
+	var isGesture = false; //记录是否是在进行多指
+	var el = init.el;
+	var startDis = 0;
+	el.addEventListener('touchstart', function(e) {
+		var touches = e.touches;//当前屏幕上的手指列表
+		//console.log(touches);
+		if(touches.length >= 2){
+			isGesture = true;
+			startDis = getDis(touches[0],touches[1]);
+			init.start&&init.start.call(el,e);
+
+		}
+	});
+	el.addEventListener('touchmove', function(e) {
+		var touches = e.touches;
+		if(touches.length >= 2 && isGesture){
+			var nowDis = getDis(touches[0],touches[1]);
+			e.scale = nowDis/startDis;
+			init.change&&init.change.call(el,e);
+		}
+	});
+	el.addEventListener('touchend', function(e) {
+		if(isGesture){
+			init.end&&init.end.call(el,e);
+		}
+		isGesture = false;
+	}); 
+}	
+function getDis(point,point2){
+	var x = point2.pageX - point.pageX;
+	var y = point2.pageY - point.pageY;
+	return Math.sqrt(x*x + y*y);
+	//console.log(point.pageX,point.pageY);
+}
+
+function drag(init){
+	var isGesture = true; //记录是否是在进行多指
+	var el = init.el;
+	var startPoint = {};
+	el.addEventListener('touchstart', function(e) {
+		var touches = e.touches;
+		if(touches.length < 2){
+			isGesture = false;
+			startPoint = {x:touches[0].pageX,y:touches[0].pageY};
+			init.start&&init.start.call(el,e);
+		}
+	});
+	el.addEventListener('touchmove', function(e) {
+		var touches = e.touches;
+		if(touches.length < 2&& !isGesture){
+			var nowPoint = {x:touches[0].pageX,y:touches[0].pageY}
+			e.dis = {
+				x: nowPoint.x - startPoint.x,
+				y: nowPoint.y - startPoint.y
+			};//move时 和 start 手指移动的距离
+			init.move&&init.move.call(el,e);
+		}
+	});
+	el.addEventListener('touchend', function(e) {
+		if(!isGesture){
+			init.end&&init.end.call(el,e);
+		}
+		isGesture = true;
+	}); 
+
+}
+</script>
+</body>
+</html>

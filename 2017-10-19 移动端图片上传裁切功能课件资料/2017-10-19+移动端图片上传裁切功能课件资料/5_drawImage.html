@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>妙味课堂最新开班信息: 零基础课程-10月24日-上海 零基础课程-10月25日-北京</title>
+<script>
+console.log('妙味课堂最新开班信息: 零基础课程-10月24日-上海 零基础课程-10月25日-北京');
+</script>
+<style type="text/css">
+#c {
+	display: block;
+	background: #ccc;
+}	
+</style>
+</head>
+<body>
+<canvas id="c" width="1000" height="600"></canvas>
+<img src="img/avatar6.jpg"/>
+<script type="text/javascript">
+var c = document.querySelector('#c');
+var cxt = c.getContext("2d");
+var img = document.querySelector('img');
+//cxt.drawImage(img,x,y,w,h);
+// 确保图片加载完成之后，才可以放入画布;
+img.onload = function(){
+	cxt.drawImage(img,0,0,100,100);
+};
+</script>
+</body>
+</html>
